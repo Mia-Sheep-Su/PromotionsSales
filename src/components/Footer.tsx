@@ -12,11 +12,11 @@ export function Footer() {
           </Link>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Button variant="link" asChild>
-              <Link href="https://mia-sheep-su.github.io/AboutMe/" target="_blank" rel="noopener noreferrer">聯絡我們</Link>
+              <Link href="https://mia-sheep-su.github.io/AboutMe/" target="_blank" rel="noopener noreferrer" prefetch={false}>聯絡我們</Link>
             </Button>
             <EventStatementDialog />
             <Button variant="link" asChild>
-              <Link href="https://mia-sheep-su.github.io/AboutMe/" target="_blank" rel="noopener noreferrer">品牌故事</Link>
+              <Link href="https://mia-sheep-su.github.io/AboutMe/" target="_blank" rel="noopener noreferrer" prefetch={false}>品牌故事</Link>
             </Button>
           </div>
           <p className="text-sm text-muted-foreground">
