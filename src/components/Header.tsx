@@ -30,8 +30,8 @@ export function Header() {
   return (
     <header
       className={cn(
-        // Base classes: always sticky at the top, with a smooth transition
-        'sticky top-0 z-50 w-full transition-colors duration-300 ease-in-out',
+        // Use 'fixed' to take the header out of the document flow, allowing it to overlay content.
+        'fixed top-0 z-50 w-full transition-colors duration-300 ease-in-out',
         // Conditional classes: apply a background and border only when scrolled
         isScrolled
           ? 'border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'
