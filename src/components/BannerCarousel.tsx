@@ -34,7 +34,7 @@ export function BannerCarousel() {
                 >
                   <Card className="overflow-hidden border-0 rounded-none cursor-pointer">
                     <CardContent className="p-0">
-                      <div className="h-[65vh] lg:h-[95vh] relative w-full">
+                      <div className="h-[65vh] lg:h-[110vh] relative w-full">
                         <Image
                           src={banner.src}
                           alt={banner.alt}
