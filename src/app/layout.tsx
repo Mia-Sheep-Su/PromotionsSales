@@ -6,6 +6,9 @@ import { Toaster } from '@/components/ui/toaster';
 export const metadata: Metadata = {
   title: 'ShopStream',
   description: 'A modern e-commerce experience.',
+  icons: {
+    icon: '/Logo.svg',
+  },
 };
 
 export default function RootLayout({
