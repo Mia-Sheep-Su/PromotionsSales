@@ -34,12 +34,12 @@ export function BannerCarousel() {
                 >
                   <Card className="overflow-hidden border-0 rounded-none cursor-pointer">
                     <CardContent className="p-0">
-                      <div className="h-[65vh] md:h-[95vh] relative w-full">
+                      <div className="h-[65vh] lg:h-[95vh] relative w-full">
                         <Image
                           src={banner.src}
                           alt={banner.alt}
                           fill
-                          className="object-cover hidden md:block"
+                          className="object-cover hidden lg:block"
                           sizes="100vw"
                           data-ai-hint={banner['data-ai-hint']}
                           priority={index === 0}
@@ -48,7 +48,7 @@ export function BannerCarousel() {
                           src={banner.srcMobile}
                           alt={banner.alt}
                           fill
-                          className="object-cover block md:hidden"
+                          className="object-cover block lg:hidden"
                           sizes="100vw"
                           data-ai-hint={banner['data-ai-hint-mobile']}
                           priority={index === 0}
