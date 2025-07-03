@@ -1,16 +1,43 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ShoppingCartSheet } from './ShoppingCart';
 import { useCart } from '@/context/CartProvider';
+import { cn } from '@/lib/utils';
 
 export function Header() {
   const { cartCount } = useCart();
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // When the user scrolls more than 10px, we'll change the header's style
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    // Add the scroll event listener when the component mounts
+    window.addEventListener('scroll', handleScroll);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []); // The empty array ensures this effect runs only once
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header
+      className={cn(
+        // Base classes: always sticky at the top, with a smooth transition
+        'sticky top-0 z-50 w-full transition-colors duration-300 ease-in-out',
+        // Conditional classes: apply a background and border only when scrolled
+        isScrolled
+          ? 'border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'
+          : 'border-transparent'
+      )}
+    >
       <div className="container flex h-16 items-center px-6">
         <div className="mr-4 flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
