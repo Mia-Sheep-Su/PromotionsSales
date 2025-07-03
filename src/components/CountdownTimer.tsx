@@ -19,56 +19,63 @@ interface TimeLeft {
   seconds: number;
 }
 
+const initialTimeLeft: TimeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
+
 export function CountdownTimer() {
-  const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>(initialTimeLeft);
   const [showEndDialog, setShowEndDialog] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    const calculateTimeLeft = (): [TimeLeft, number] => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient || isNaN(countdownTargetDate.getTime())) {
+      return;
+    }
+
+    const timer = setInterval(() => {
       const difference = +countdownTargetDate - +new Date();
-      let timeLeft: TimeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
 
       if (difference > 0) {
-        timeLeft = {
+        setTimeLeft({
           days: Math.floor(difference / (1000 * 60 * 60 * 24)),
           hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
           minutes: Math.floor((difference / 1000 / 60) % 60),
           seconds: Math.floor((difference / 1000) % 60),
-        };
-      }
-      return [timeLeft, difference];
-    };
-
-    // Set initial time on client mount
-    const [initialTime, initialDifference] = calculateTimeLeft();
-    setTimeLeft(initialTime);
-
-    if (initialDifference <= 0) {
-      setShowEndDialog(true);
-      return; // Stop if event is already over
-    }
-
-    const timer = setInterval(() => {
-      const [newTimeLeft, newDifference] = calculateTimeLeft();
-      setTimeLeft(newTimeLeft);
-
-      if (newDifference <= 0) {
-        clearInterval(timer);
+        });
+      } else {
+        setTimeLeft(initialTimeLeft);
         setShowEndDialog(true);
+        clearInterval(timer);
       }
     }, 1000);
 
-    return () => clearInterval(timer);
-  }, []);
+    // Perform an initial calculation right away to avoid a 1-second delay
+    const initialDifference = +countdownTargetDate - +new Date();
+    if (initialDifference > 0) {
+      setTimeLeft({
+        days: Math.floor(initialDifference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((initialDifference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((initialDifference / 1000 / 60) % 60),
+        seconds: Math.floor((initialDifference / 1000) % 60),
+      });
+    } else {
+      setTimeLeft(initialTimeLeft);
+      setShowEndDialog(true);
+      clearInterval(timer);
+    }
 
-  // Display all zeros until the component has mounted on the client
-  const displayTime = timeLeft || { days: 0, hours: 0, minutes: 0, seconds: 0 };
+
+    return () => clearInterval(timer);
+  }, [isClient]);
 
   const timeParts = [
-    { label: '天', value: displayTime.days },
-    { label: '時', value: displayTime.hours },
-    { label: '分', value: displayTime.minutes },
-    { label: '秒', value: displayTime.seconds },
+    { label: '天', value: timeLeft.days },
+    { label: '時', value: timeLeft.hours },
+    { label: '分', value: timeLeft.minutes },
+    { label: '秒', value: timeLeft.seconds },
   ];
 
   return (
