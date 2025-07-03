@@ -3,10 +3,18 @@
 import { useState, useEffect } from 'react';
 import { countdownTargetDate } from '@/data/countdown';
 
+interface TimeLeft {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
+
 export function CountdownTimer() {
-  const calculateTimeLeft = () => {
+  const calculateTimeLeft = (): TimeLeft => {
     const difference = +countdownTargetDate - +new Date();
-    let timeLeft = {
+    let timeLeft: TimeLeft = {
       days: 0,
       hours: 0,
       minutes: 0,
@@ -25,12 +33,12 @@ export function CountdownTimer() {
     return timeLeft;
   };
 
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
 
   useEffect(() => {
-    // Set initial value on client mount to avoid hydration mismatch
+    // This code now runs only on the client, avoiding hydration errors.
     setTimeLeft(calculateTimeLeft());
-    
+
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
@@ -38,11 +46,14 @@ export function CountdownTimer() {
     return () => clearInterval(timer);
   }, []);
 
+  // Display all zeros until the component has mounted on the client
+  const displayTime = timeLeft || { days: 0, hours: 0, minutes: 0, seconds: 0 };
+
   const timeParts = [
-    { label: '天', value: timeLeft.days },
-    { label: '時', value: timeLeft.hours },
-    { label: '分', value: timeLeft.minutes },
-    { label: '秒', value: timeLeft.seconds },
+    { label: '天', value: displayTime.days },
+    { label: '時', value: displayTime.hours },
+    { label: '分', value: displayTime.minutes },
+    { label: '秒', value: displayTime.seconds },
   ];
 
   return (
