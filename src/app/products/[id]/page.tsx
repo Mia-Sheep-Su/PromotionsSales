@@ -1,4 +1,4 @@
-import { getProductById } from '@/lib/api';
+import { getProductById, getProducts } from '@/lib/api';
 import { notFound } from 'next/navigation';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -7,6 +7,15 @@ import { ProductInfo } from '@/components/ProductInfo';
 import { ReviewCarousel } from '@/components/ReviewCarousel';
 import Image from 'next/image';
 import { ProductActionButtons } from '@/components/ProductActionButtons';
+
+// This function tells Next.js which pages to generate at build time
+export async function generateStaticParams() {
+  const products = await getProducts();
+
+  return products.map((product) => ({
+    id: String(product.id),
+  }));
+}
 
 export default async function ProductPage({ params }: { params: { id: string } }) {
   const productId = parseInt(params.id, 10);
@@ -19,7 +28,7 @@ export default async function ProductPage({ params }: { params: { id: string } }
   if (!product) {
     notFound();
   }
-  
+
   // Fake multiple images for gallery demonstration
   const images = [product.image, "https://placehold.co/600x600.png", "https://placehold.co/600x600.png"];
 
@@ -39,20 +48,20 @@ export default async function ProductPage({ params }: { params: { id: string } }
 
           <div className="mt-16">
             <h2 className="text-3xl font-headline font-bold text-center mb-8">商品詳情</h2>
-             <div className="relative w-full aspect-[9/16] md:aspect-video">
+            <div className="relative w-full aspect-[9/16] md:aspect-video">
               <Image
-                  src="https://placehold.co/600x900.png"
-                  alt="Product details vertical"
-                  fill
-                  className="object-cover rounded-lg block md:hidden"
-                  data-ai-hint="product detail vertical"
+                src="https://placehold.co/600x900.png"
+                alt="Product details vertical"
+                fill
+                className="object-cover rounded-lg block md:hidden"
+                data-ai-hint="product detail vertical"
               />
               <Image
-                  src="https://placehold.co/1200x600.png"
-                  alt="Product details"
-                  fill
-                  className="object-cover rounded-lg hidden md:block"
-                  data-ai-hint="product lifestyle"
+                src="https://placehold.co/1200x600.png"
+                alt="Product details"
+                fill
+                className="object-cover rounded-lg hidden md:block"
+                data-ai-hint="product lifestyle"
               />
             </div>
           </div>
