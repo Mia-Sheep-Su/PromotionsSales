@@ -50,14 +50,14 @@ export default async function ProductPage({ params }: { params: { id: string } }
             <h2 className="text-3xl font-headline font-bold text-center mb-8">商品詳情</h2>
             <div className="relative w-full aspect-[9/16] md:aspect-video">
               <Image
-                src="/md_商說.jpg"
+                src="https://mia-sheep-su.github.io/PromotionsSales/md_%E5%95%86%E8%AA%AA.jpg"
                 alt="Product details vertical"
                 fill
                 className="object-cover rounded-lg block md:hidden"
                 data-ai-hint="product detail vertical"
               />
               <Image
-                src="/pc_商說.jpg"
+                src="https://mia-sheep-su.github.io/PromotionsSales/pc_%E5%95%86%E8%AA%AA.jpg"
                 alt="Product details"
                 fill
                 className="object-cover rounded-lg hidden md:block"
