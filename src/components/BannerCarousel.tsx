@@ -27,7 +27,7 @@ export function BannerCarousel() {
               <Link href={banner.href || '#'}>
                 <Card className="overflow-hidden border-0 rounded-none cursor-pointer">
                   <CardContent className="p-0">
-                    <div className="h-[50vh] md:h-screen relative w-full">
+                    <div className="h-[50vh] md:h-[60vh] relative w-full">
                       <Image
                         src={banner.src}
                         alt={banner.alt}
